@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="hde\hde32.c">
+      <Filter>hde</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="remote_utils.hpp" />
+    <ClInclude Include="hde\hde32.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="hde\pstdint.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="hde\table32.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="hde">
+      <UniqueIdentifier>{4671ec76-d730-46a4-b7bf-e58ac84812a6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
