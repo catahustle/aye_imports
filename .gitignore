@@ -1,0 +1,16 @@
+
+.vs/aye_imports/v16/.suo
+*.db
+*.ipch
+*.recipe
+*.iobj
+*.ipdb
+*.log
+*.lastbuildstate
+*.tlog
+*.obj
+*.pdb
+*.exe
+*.ilk
+*.idb
+*.dll

@@ -48,17 +48,17 @@ std::unordered_map< std::uint32_t, c_export > parse_exports( )
 
 		IMAGE_EXPORT_DIRECTORY* export_dir = reinterpret_cast< IMAGE_EXPORT_DIRECTORY* >( module_base + nt_headers->OptionalHeader.DataDirectory[ 0 ].VirtualAddress );
 
-		std::uint32_t* m_pFunctionsTable = reinterpret_cast< std::uint32_t* >( module_base + export_dir->AddressOfFunctions );
-		std::uint16_t* m_pOrdinalTable = reinterpret_cast< std::uint16_t* >( module_base + export_dir->AddressOfNameOrdinals );
-		std::uint32_t* m_pNamesTable = reinterpret_cast< std::uint32_t* >( module_base + export_dir->AddressOfNames );
+		std::uint32_t* functions_table = reinterpret_cast< std::uint32_t* >( module_base + export_dir->AddressOfFunctions );
+		std::uint16_t* ordinal_table = reinterpret_cast< std::uint16_t* >( module_base + export_dir->AddressOfNameOrdinals );
+		std::uint32_t* names_table = reinterpret_cast< std::uint32_t* >( module_base + export_dir->AddressOfNames );
 
 		for ( DWORD i = 0; i < export_dir->NumberOfNames; i++ )
 		{
 			c_export exp;
 			exp.module_name = mod;
-			exp.proc_name = std::string( reinterpret_cast< char* >( module_base + m_pNamesTable[ i ] ) );
+			exp.proc_name = std::string( reinterpret_cast< char* >( module_base + names_table[ i ] ) );
 
-			exports[ FNV1A_RT( reinterpret_cast< char* >( module_base + m_pNamesTable[ i ] ) ) ] = exp;
+			exports[ FNV1A_RT( reinterpret_cast< char* >( module_base + names_table[ i ] ) ) ] = exp;
 		}
 	}	
 
@@ -219,8 +219,8 @@ struct c_loader_data
 int main( )
 {
 	int pid = remote_utils::get_process_id( "csgo.exe" );
-	if ( !pid )
-		report_error( "[-] Failed to find process id" );
+	while ( !pid )
+		pid = remote_utils::get_process_id( "csgo.exe" );
 
 	HANDLE process = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pid );
 	if ( !process )

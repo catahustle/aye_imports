@@ -89,6 +89,11 @@ namespace remote_utils
 		return buffer;
 	}
 
+	void protect( std::uint8_t* address, std::uint32_t size, std::uint32_t new_protect, unsigned long* old_protect )
+	{
+		VirtualProtectEx( process, address, size, new_protect, old_protect );
+	}
+
 	HANDLE create_thread( std::uint8_t* function, std::uint8_t* arg = nullptr, bool wait = false )
 	{
 		HANDLE thread = CreateRemoteThread( process, nullptr, 0, reinterpret_cast< LPTHREAD_START_ROUTINE >( function ), arg, 0, nullptr );
@@ -109,6 +114,7 @@ namespace remote_utils
 		std::uint8_t* allocated_module_name = allocate( length );
 		write( allocated_module_name, module_name, length );
 		create_thread( reinterpret_cast< std::uint8_t* >( LoadLibraryA ), allocated_module_name, true );
+		free( allocated_module_name );
 	}
 
 	c_module get_module_data( char* module_name )
